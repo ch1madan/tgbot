@@ -1,1 +1,4 @@
+os
 aiogram
+dotenv
+asyncio
