@@ -1,4 +1,3 @@
-os
 aiogram
 dotenv
 asyncio
