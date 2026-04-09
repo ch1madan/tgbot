@@ -18,6 +18,8 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
     steps:
+      - name: Install deps
+        run: pip install -r req.txt
       - name: run tests
         run: python -m pytest tests/
   deploy:
