@@ -1,5 +1,3 @@
-import pytest
-
 # Simple function representing your bot's logic
 def handle_start_command(user_name):
     return f"Hello {user_name}! I am your bot."
