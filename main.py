@@ -9,7 +9,7 @@ from aiogram.filters import Command
 
 
 load_dotenv()
-token = os.getenv("BOT_TOKEN")
+token = ${{ secrets.TG_BOT_TOKEN }}
 bot = Bot(token=token)
 dp =Dispatcher()
 
