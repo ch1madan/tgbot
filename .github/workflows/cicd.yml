@@ -34,7 +34,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            cd /opt/myapp
+            cd /app
             echo "BOT_TOKEN=${{ secrets.BOT_TOKEN }}" > .env
             
             docker pull ${{ secrets.DOCKER_USERNAME }}/myapp:latest
