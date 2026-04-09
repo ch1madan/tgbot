@@ -18,7 +18,7 @@ async def start_command(message: Message):
     await message.answer("h1! I am test bot. WORKS OK! Welcome")
 
 @dp.message(Command("test"))
-async def start_command(message: Message):
+async def test_command(message: Message):
     await message.answer("NEW test fuction is works!) CONGARTS!)")
 
 async def main():
