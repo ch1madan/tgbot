@@ -15,7 +15,7 @@ jobs:
           pip install -r req.txt
       - name: run tests
         run:
-          pytest tests/
+          python -m pytest tests/
       - name: Deploy to production
         run:
           echo "Deploying to production..."
