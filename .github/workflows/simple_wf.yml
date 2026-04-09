@@ -1,0 +1,21 @@
+name: deployment workflow
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v6
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run:
+          python -m pip install --upgrade pip
+          pip install -r req.txt
+      - name: run tests
+        run:
+          pytest tests/
+      - name: Deploy to production
+        run:
+          echo "Deploying to production..."
