@@ -1,42 +1,58 @@
-import sqlite3
+import os
+import psycopg2
 from datetime import datetime
+from dotenv import load_dotenv
 
-DB_PATH = "bot.db"
+load_dotenv()
+
+DB_CONFIG = {
+    "dbname": os.getenv("POSTGRES_DB", "botdb"),
+    "user": os.getenv("POSTGRES_USER", "bot"),
+    "password": os.getenv("POSTGRES_PASSWORD", "botpass"),
+    "host": os.getenv("POSTGRES_HOST", "localhost"),
+    "port": os.getenv("POSTGRES_PORT", "5432"),
+}
+
+
+def get_conn():
+    return psycopg2.connect(**DB_CONFIG)
 
 
 def init_db():
-    conn = sqlite3.connect(DB_PATH)
+    conn = get_conn()
     cur = conn.cursor()
 
     cur.execute("""
-    CREATE TABLE IF NOT EXISTS user_logs (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER,
-        username TEXT,
-        first_name TEXT,
-        command TEXT,
-        timestamp TEXT
-    )
+        CREATE TABLE IF NOT EXISTS user_logs (
+            id SERIAL PRIMARY KEY,
+            user_id BIGINT NOT NULL,
+            username TEXT,
+            first_name TEXT,
+            command TEXT,
+            timestamp TIMESTAMP DEFAULT NOW()
+        );
     """)
 
     conn.commit()
+    cur.close()
     conn.close()
 
 
 def log_user(user, command=None):
-    conn = sqlite3.connect(DB_PATH)
+    conn = get_conn()
     cur = conn.cursor()
 
     cur.execute("""
         INSERT INTO user_logs (user_id, username, first_name, command, timestamp)
-        VALUES (?, ?, ?, ?, ?)
+        VALUES (%s, %s, %s, %s, %s)
     """, (
         user.id,
         user.username,
         user.first_name,
         command,
-        datetime.utcnow().isoformat()
+        datetime.utcnow()
     ))
 
     conn.commit()
+    cur.close()
     conn.close()
